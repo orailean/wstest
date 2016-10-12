@@ -49,6 +49,7 @@
        <wsdlOptions>
         <wsdlOption>
          <wsdl>http://www.thomas-bayer.com/axis2/services/BLZService?wsdl</wsdl>
+         <wsdl>http://www.webservicex.com/globalweather.asmx?wsdl</wsdl>
         </wsdlOption>
        </wsdlOptions>
       </configuration>
