@@ -9,6 +9,11 @@
  <version>0.0.1-SNAPSHOT</version>
  <properties>
   <apache.cxf.version>3.1.7</apache.cxf.version>
+  <apache.cxf.wsdl.blz>http://www.thomas-bayer.com/axis2/services/BLZService?wsdl</apache.cxf.wsdl.blz>
+  <apache.cxf.wsdl.globalweather>http://www.webservicex.com/globalweather.asmx?wsdl</apache.cxf.wsdl.globalweather>
+  <testng.version>6.9.8</testng.version>
+  <apache.maven.surefire.version>2.19.1</apache.maven.surefire.version>
+  <apache.cxf.codegen.version>3.1.7</apache.cxf.codegen.version>
  </properties>
  <dependencies>
   <dependency>
@@ -30,7 +35,7 @@
   <dependency>
    <groupId>org.testng</groupId>
    <artifactId>testng</artifactId>
-   <version>6.9.8</version>
+   <version>${testng.version}</version>
    <scope>test</scope>
   </dependency>
  </dependencies>
@@ -39,7 +44,7 @@
    <plugin>
     <groupId>org.apache.cxf</groupId>
     <artifactId>cxf-codegen-plugin</artifactId>
-    <version>3.1.7</version>
+    <version>${apache.cxf.codegen.version}</version>
     <executions>
      <execution>
       <id>generate-sources</id>
@@ -48,10 +53,10 @@
        <sourceRoot>src/generated/java</sourceRoot>
        <wsdlOptions>
         <wsdlOption>
-         <wsdl>http://www.thomas-bayer.com/axis2/services/BLZService?wsdl</wsdl>
+         <wsdl>${apache.cxf.wsdl.blz}</wsdl>
         </wsdlOption>
         <wsdlOption>
-         <wsdl>http://www.webservicex.com/globalweather.asmx?wsdl</wsdl>
+         <wsdl>${apache.cxf.wsdl.globalweather}</wsdl>
         </wsdlOption>        
        </wsdlOptions>
       </configuration>
@@ -64,7 +69,7 @@
    <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.19.1</version>
+    <version>${apache.maven.surefire.version}</version>
     <configuration>
      <suiteXmlFiles>
       <suiteXmlFile>testng.xml</suiteXmlFile>

@@ -2,6 +2,7 @@ package automation;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import net.webservicex.GlobalWeather;
@@ -11,7 +12,6 @@ import util.Validators;
 public class WeatherTest {
 
 	private GlobalWeatherSoap responseSoap12;
-	private String countryName;
 	private String countries;
 
 	@BeforeTest
@@ -20,32 +20,37 @@ public class WeatherTest {
 		responseSoap12 = globalWeather.getGlobalWeatherSoap12();
 	}
 
-	@Test
-	public void CountriesResponsePositiveTest() {
-		countryName = "Romania";
-		countries = responseSoap12.getCitiesByCountry(countryName);
-		Assert.assertTrue(countries.contains("Iasi"));
+	@DataProvider(name = "validCountries")
+	public static Object[][] validInput() {
+		return new Object[][] { { "Romania", "Iasi" }, { "Germany", "Munich" }, { "Sweden", "Stockholm" } };
 	}
-	
-	@Test
-	public void CountriesResponseNegativeTest() {
-		countryName = "xxx";
-		countries = responseSoap12.getCitiesByCountry(countryName);
+
+	@DataProvider(name = "nonCountries")
+	public static Object[][] invalidInput() {
+		return new Object[][] { { "xxx" }, { "Landistan" }, { "Sweeden" }, { "Rümänien" } };
+	}
+
+	@Test(dataProvider = "validCountries")
+	public void CountriesResponsePositiveTest(String country, String city) {
+		countries = responseSoap12.getCitiesByCountry(country);
+		Assert.assertTrue(countries.contains(city));
+	}
+
+	@Test(dataProvider = "nonCountries")
+	public void CountriesResponseNegativeTest(String country) {
+		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertEquals(countries, "<NewDataSet />");
 	}
-	
-	@Test
-	public void XMLValidationPositiveTest() {
-		countryName = "Germany";
-		countries = responseSoap12.getCitiesByCountry(countryName);
+
+	@Test(dataProvider = "validCountries")
+	public void XMLValidationPositiveTest(String country,  String city) {
+		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
 	}
-	
-	@Test
-	public void XMLValidationNegativeTest() {
-		countryName = "xxx";
-		countries = responseSoap12.getCitiesByCountry(countryName);
-		System.out.println(countries);
+
+	@Test(dataProvider = "nonCountries")
+	public void XMLValidationNegativeTest(String country) {
+		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
 	}
 
