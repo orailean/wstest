@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import net.webservicex.GlobalWeather;
 import net.webservicex.GlobalWeatherSoap;
+import util.CSVUtils;
 import util.Validators;
 
 public class WeatherTest {
@@ -19,37 +20,39 @@ public class WeatherTest {
 		GlobalWeather globalWeather = new GlobalWeather();
 		responseSoap12 = globalWeather.getGlobalWeatherSoap12();
 	}
-
-	@DataProvider(name = "validCountries")
-	public static Object[][] validInput() {
-		return new Object[][] { { "Romania", "Iasi" }, { "Germany", "Munich" }, { "Sweden", "Stockholm" } };
+	
+	@DataProvider(name = "invalidCountriesFromCSV")
+	public static Object[][] invalidInputFromFile() {
+		String csvFilePath = "./src/test/resources/soap/globalweather/countries_invalid.csv";
+		return CSVUtils.getData(csvFilePath);	
+	}	
+	
+	@DataProvider(name = "validCountriesFromCSV")
+	public static Object[][] validInputFromFile() {
+		String csvFilePath = "./src/test/resources/soap/globalweather/countries.csv";
+		return CSVUtils.getData(csvFilePath);	
 	}
 
-	@DataProvider(name = "nonCountries")
-	public static Object[][] invalidInput() {
-		return new Object[][] { { "xxx" }, { "Landistan" }, { "Sweeden" }, { "Rümänien" } };
-	}
-
-	@Test(dataProvider = "validCountries")
+	@Test(dataProvider = "validCountriesFromCSV")
 	public void CountriesResponsePositiveTest(String country, String city) {
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(countries.contains(city));
 	}
 
-	@Test(dataProvider = "nonCountries")
-	public void CountriesResponseNegativeTest(String country) {
+	@Test(dataProvider = "invalidCountriesFromCSV")
+	public void CountriesResponseNegativeTest(String country, String city) {
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertEquals(countries, "<NewDataSet />");
 	}
 
-	@Test(dataProvider = "validCountries")
+	@Test(dataProvider = "validCountriesFromCSV")
 	public void XMLValidationPositiveTest(String country,  String city) {
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
 	}
 
-	@Test(dataProvider = "nonCountries")
-	public void XMLValidationNegativeTest(String country) {
+	@Test(dataProvider = "invalidCountriesFromCSV")
+	public void XMLValidationNegativeTest(String country, String city) {
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
 	}
