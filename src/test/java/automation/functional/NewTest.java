@@ -1,4 +1,4 @@
-package automation;
+package automation.functional;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
