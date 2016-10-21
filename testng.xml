@@ -3,9 +3,14 @@
  <listeners>
   <listener class-name="util.TestNgCustomListener" />
  </listeners>
- <test name="Regressions">
+  <test name="functional">
   <packages>
-   <package name=".*" />
+   <package name="automation.functional" />
+  </packages>
+ </test>
+ <test name="integration">
+  <packages>
+   <package name="automation.integration" />
   </packages>
  </test>
 </suite>

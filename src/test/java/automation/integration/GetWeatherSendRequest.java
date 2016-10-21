@@ -5,17 +5,17 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import util.CSVUtils;
+import util.LocalProperties;
 import util.SOAPClient;
 import util.XMLExpand;
 
-public class SendRequest {
+public class GetWeatherSendRequest {
 
 	@DataProvider(name = "validCountriesFromCSV")
 	public static Object[][] validInputFromFile() {
@@ -23,38 +23,39 @@ public class SendRequest {
 		return CSVUtils.getData(csvFilePath);
 	}
 
+	private SOAPClient SOAPClient;
+
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void f1(String country, String city) throws SOAPException, IOException {
+	public void GetWeather(String country, String city) throws SOAPException, IOException {
 
 		HashMap<String, String> map = new HashMap<>();
 		File xmlFileTemplate;
-		SOAPMessage response;
-
+		String response;
+		
 		map.put("city_string", city);
 		map.put("country_string", country);
-
 		xmlFileTemplate = new File("./src/main/resources/soap12/GetWeather.xml");
-		String xmlExpanded = XMLExpand.perform(xmlFileTemplate, map);
 
-		response = SOAPClient.SOAPSendRequest("http://www.webservicex.net/globalweather.asmx", xmlExpanded);
-
+		SOAPClient = new SOAPClient(LocalProperties.getGlobalWeatherEndpoint());
+		
+		response = SOAPClient.execute(XMLExpand.perform(xmlFileTemplate, map));
 		Assert.assertNotNull(response);
 
 	}
 
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void f2(String country, String city) throws SOAPException, IOException {
+	public void GetCitiesByCountry(String country, String city) throws SOAPException, IOException {
 
 		HashMap<String, String> map = new HashMap<>();
 		File xmlFileTemplate;
-		SOAPMessage response;
+		String response;
 
 		map.put("country_string", country);
-
 		xmlFileTemplate = new File("./src/main/resources/soap12/GetCitiesByCountry.xml");
-		String xmlExpanded = XMLExpand.perform(xmlFileTemplate, map);
-		response = SOAPClient.SOAPSendRequest("http://www.webservicex.net/globalweather.asmx", xmlExpanded);
 
+		SOAPClient = new SOAPClient(LocalProperties.getGlobalWeatherEndpoint());
+		
+		response = SOAPClient.execute(XMLExpand.perform(xmlFileTemplate, map));
 		Assert.assertNotNull(response);
 
 	}

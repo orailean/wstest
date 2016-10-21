@@ -8,7 +8,7 @@ import com.thomas_bayer.blz.BLZService;
 import com.thomas_bayer.blz.BLZServicePortType;
 import com.thomas_bayer.blz.DetailsType;
 
-public class NewTest {
+public class BLZServiceTest {
 
 	private BLZServicePortType responseSoap12;
 

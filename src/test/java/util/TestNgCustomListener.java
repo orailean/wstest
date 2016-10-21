@@ -12,7 +12,7 @@ public class TestNgCustomListener implements ITestListener, IInvokedMethodListen
 	public void onTestStart(ITestResult result) {
 		// TODO Auto-generated method stub
 		try {
-			Thread.sleep(666);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
