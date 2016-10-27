@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import util.LocalProperties;
 import util.SOAPClient;
 import util.Utilities;
+import util.XMLParseUtils;
 
 public class DMCSendRequest {
 
@@ -25,7 +26,10 @@ public class DMCSendRequest {
 				LocalProperties.getProxyPort());
 		response = soapClient.execute(xmlFileAsString, LocalProperties.getApiUser(), LocalProperties.getApiPassword());
 
-		Assert.assertNotNull(response);
+		XMLParseUtils xmlUtils = new XMLParseUtils();
+		String version = xmlUtils.getTextFromNode(response, "version");
+
+		Assert.assertNotNull(version);
 
 	}
 }
