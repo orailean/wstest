@@ -8,7 +8,7 @@ import com.thomas_bayer.blz.BLZService;
 import com.thomas_bayer.blz.BLZServicePortType;
 import com.thomas_bayer.blz.DetailsType;
 
-public class BLZServiceTest {
+public class WhenBLZServiceIsCalled {
 
 	private BLZServicePortType responseSoap12;
 
@@ -19,7 +19,7 @@ public class BLZServiceTest {
 	}
 
 	@Test
-	public void DeutscheBank() {
+	public void should_retrieve_bank_details_by_blz() {
 		DetailsType bankDetails = responseSoap12.getBank("70070024");
 		Assert.assertTrue(bankDetails.getBezeichnung().contains("Deutsche Bank"));
 		Assert.assertEquals(bankDetails.getOrt(), "München");

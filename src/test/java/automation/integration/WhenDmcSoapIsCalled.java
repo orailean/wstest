@@ -10,13 +10,13 @@ import util.SOAPClient;
 import util.Utilities;
 import util.XMLParseUtils;
 
-public class DMCSendRequest {
+public class WhenDmcSoapIsCalled {
 
 	File xmlFileTemplate;
 	String response;
 
 	@Test
-	public void GetDMCVersion() {
+	public void should_return_the_application_version() {
 
 		xmlFileTemplate = new File("./src/main/resources/soap12/GetDMCVersion.xml");
 		String xmlFileAsString = Utilities.fileToString(xmlFileTemplate);

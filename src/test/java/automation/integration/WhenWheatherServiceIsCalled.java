@@ -15,7 +15,7 @@ import util.LocalProperties;
 import util.SOAPClient;
 import util.XMLExpand;
 
-public class GetWeatherSendRequest {
+public class WhenWheatherServiceIsCalled {
 
 	@DataProvider(name = "validCountriesFromCSV")
 	public static Object[][] validInputFromFile() {
@@ -26,7 +26,7 @@ public class GetWeatherSendRequest {
 	private SOAPClient SOAPClient;
 
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void GetWeather(String country, String city) throws SOAPException, IOException {
+	public void should_return_current_weather_valid_response(String country, String city) throws SOAPException, IOException {
 
 		HashMap<String, String> map = new HashMap<>();
 		File xmlFileTemplate;
@@ -44,7 +44,7 @@ public class GetWeatherSendRequest {
 	}
 
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void GetCitiesByCountry(String country, String city) throws SOAPException, IOException {
+	public void shoud_return_cities_list_by_country(String country, String city) throws SOAPException, IOException {
 
 		HashMap<String, String> map = new HashMap<>();
 		File xmlFileTemplate;

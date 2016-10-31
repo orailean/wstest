@@ -11,12 +11,12 @@ import net.webservicex.GlobalWeatherSoap;
 import util.CSVUtils;
 import util.Validators;
 
-public class WeatherTest {
+public class WhenWeatherServiceisCalled {
 
 	private GlobalWeatherSoap responseSoap12;
 	private String countries;
 
-	final Logger LOGGER = Logger.getLogger(WeatherTest.class);
+	final Logger LOGGER = Logger.getLogger(WhenWeatherServiceisCalled.class);
 
 	@BeforeTest
 	public void setup() {
@@ -37,28 +37,29 @@ public class WeatherTest {
 	}
 
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void CountriesResponsePositiveTest(String country, String city) {
+	
+	public void should_return_existing_city_if_country_is_valid(String country, String city) {
 		LOGGER.info("Parameters: [" + country + "," + city + "]");
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(countries.contains(city));
 	}
 
 	@Test(dataProvider = "invalidCountriesFromCSV")
-	public void CountriesResponseNegativeTest(String country, String city) {
+	public void should_return_empty_set_if_country_not_valid(String country, String city) {
 		LOGGER.info("Parameters: [" + country + "," + city + "]");
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertEquals(countries, "<NewDataSet />");
 	}
 
 	@Test(dataProvider = "validCountriesFromCSV")
-	public void XMLValidationPositiveTest(String country, String city) {
+	public void should_return_valid_xml_if_country_is_valid(String country, String city) {
 		LOGGER.info("Parameters: [" + country + "," + city + "]");
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
 	}
 
 	@Test(dataProvider = "invalidCountriesFromCSV")
-	public void XMLValidationNegativeTest(String country, String city) {
+	public void shoud_return_valid_xml_if_country_not_valid(String country, String city) {
 		LOGGER.info("Parameters: [" + country + "," + city + "]");
 		countries = responseSoap12.getCitiesByCountry(country);
 		Assert.assertTrue(Validators.isXMLValid(countries));
